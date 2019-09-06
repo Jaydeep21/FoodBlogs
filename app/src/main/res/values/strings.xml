@@ -4,4 +4,19 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="cusine_prompt">Choose a cusine</string>
+    <string-array name="cusine">
+        <item>Chinese</item>
+        <item>Italian</item>
+        <item>Indian</item>
+    </string-array>
+
+    <string name="course_prompt">Choose a Course</string>
+    <string-array name="course">
+        <item>Starter</item>
+        <item>Main Course</item>
+        <item>Desert</item>
+    </string-array>
+
 </resources>

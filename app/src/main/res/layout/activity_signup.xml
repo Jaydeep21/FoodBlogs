@@ -17,7 +17,7 @@
         android:layout_marginRight="40dp">
 
             <ImageView
-                android:id="@+id/imgView_logo"
+                android:id="@+id/camera"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:adjustViewBounds="true"
@@ -32,7 +32,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="Sign Up"
                 android:textColor="@color/white"
-                android:layout_below="@+id/imgView_logo"
+                android:layout_below="@+id/camera"
                 android:textSize="30sp" />
 
             <LinearLayout

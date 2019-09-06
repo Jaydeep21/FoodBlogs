@@ -13,11 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp">
 
         <ImageView
-            android:id="@+id/imgView_logo"
+            android:id="@+id/camera"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:adjustViewBounds="true"
@@ -28,7 +29,7 @@
             android:id="@+id/rellay1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imgView_logo"
+            android:layout_below="@+id/camera"
             android:visibility="gone">
 
             <TextView
