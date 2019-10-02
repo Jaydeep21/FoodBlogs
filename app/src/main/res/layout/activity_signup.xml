@@ -33,7 +33,9 @@
                 android:text="Sign Up"
                 android:textColor="@color/white"
                 android:layout_below="@+id/camera"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+
+                />
 
             <LinearLayout
                 android:id="@+id/linlay1"
@@ -128,7 +130,8 @@
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
                         android:textSize="15sp"
-                        android:inputType="textPassword"/>
+
+                        />
 
                 </LinearLayout>
                 <LinearLayout

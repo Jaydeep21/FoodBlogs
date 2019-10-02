@@ -2,17 +2,24 @@ package com.example.foodblogs;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
+
+import static android.provider.BaseColumns._ID;
+
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    SharedPreferences pref;
 
-    public DatabaseHelper(Context context){ super(context,"Signup.db",null,1);}
+    Context context;
+    public DatabaseHelper(Context context){ super(context,"Signup.db",null,2);}
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("Create table user(username varchar(20),email text primary key, password varchar(20)) ");
+        db.execSQL("Create table user(uid integer  primary key AUTOINCREMENT, username varchar(20),email text , password varchar(20)) ");
     }
 
     @Override
@@ -23,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean insert(String username, String email, String password){
         SQLiteDatabase db =this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+
         contentValues.put("username",username);
         contentValues.put("email",email);
         contentValues.put("password",password);
@@ -34,7 +42,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean emailpassword(String email, String password){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from user where email=? and password=?",new String[]{email,password});
-        if(cursor.getCount()>0) return true;
+        if(cursor.getCount()>0){
+            return true;}
         else return false;
     }
 

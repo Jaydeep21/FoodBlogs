@@ -1,9 +1,12 @@
 package com.example.foodblogs;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
+    SharedPreferences pref;
     RelativeLayout rellay1, rellay2;
     Button signup,login;
     EditText email,password;
@@ -30,7 +33,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        pref = getSharedPreferences("user_details",MODE_PRIVATE);
+        if( pref.contains("email") && pref.contains("password")){
+            Intent intent = new Intent(MainActivity.this,bottomnavigation.class);
+            startActivity(intent);
+        }
         rellay1 = (RelativeLayout) findViewById(R.id.rellay1);
         rellay2 = (RelativeLayout) findViewById(R.id.rellay2);
 
@@ -58,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
                 Boolean emailpassword = db.emailpassword(s1,s2);
 
                 if(emailpassword==true){
+
+                    pref = getSharedPreferences("user_details",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("email",s1);
+                    editor.putString("password",s2);
+                    editor.commit();
+                    Log.e("email",s1);
                     Toast.makeText(getApplicationContext(),"Successfully Logged in",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this,bottomnavigation.class);
                     startActivity(intent);
