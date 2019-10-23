@@ -6,12 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,23 +42,24 @@ public class HomeFragment extends Fragment implements Adapter.ItemClickListener{
         List<ModelClass> modelClassList = new ArrayList<>();
 
         DbHelper database = new DbHelper(getContext());
-        SQLiteDatabase db = database.getReadableDatabase();
+        SQLiteDatabase db = database.getWritableDatabase();
 
         if(db!=null){
             Cursor cursor = db.rawQuery("select * from recipie",null);
+            Log.d("TAG", "Cursor Count: " + cursor.getCount());
             if(cursor.getCount()==0){
                 Toast.makeText(getContext(), "No data found", Toast.LENGTH_SHORT).show();
             }else{
                 while (cursor.moveToNext()){
-                    byte[] imagebyte = cursor.getBlob(5);
-                    Bitmap objectBitmap = BitmapFactory.decodeByteArray(imagebyte,0,imagebyte.length);
+                    //byte[] imagebyte = cursor.getBlob(5);
+                    //Bitmap objectBitmap = BitmapFactory.decodeByteArray(imagebyte,0,imagebyte.length);
 
                     modelClassList.add(
                             new ModelClass(cursor.getString(1),
                                     cursor.getString(2),
                                     cursor.getString(3) ,
                                     cursor.getString(4),
-                                    objectBitmap,
+                                    cursor.getString(5),
                                     //cursor.getBlob(6),
                                     cursor.getString(7),
                                     cursor.getString(8)
@@ -64,6 +67,7 @@ public class HomeFragment extends Fragment implements Adapter.ItemClickListener{
                     );
                 }
             }
+            cursor.close();
         }
         Adapter adapter = new Adapter(getContext(), modelClassList);
         recyclerView.setAdapter(adapter);
@@ -72,7 +76,7 @@ public class HomeFragment extends Fragment implements Adapter.ItemClickListener{
         adapter.setItemClickListener(
                 new Adapter.ItemClickListener() {
                     @Override
-                    public void onClick(String email, String dishName, String cusine, String course, Bitmap image, String description, String recipie) {
+                    public void onClick(String email, String dishName, String cusine, String course, String image, String description, String recipie) {
 
                         Intent intent = new Intent(getActivity(), watchVideo.class);
                         intent.putExtra("email", email);
@@ -93,7 +97,7 @@ public class HomeFragment extends Fragment implements Adapter.ItemClickListener{
 
 
     @Override// Bitmap video,
-    public void onClick(String email, String dishName, String cusine, String course, Bitmap image, String description, String recipie) {
+    public void onClick(String email, String dishName, String cusine, String course, String image, String description, String recipie) {
         Intent intent = new Intent(getActivity(), watchVideo.class);
         intent.putExtra("email", email);
         intent.putExtra("dishname", dishName);

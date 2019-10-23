@@ -45,7 +45,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder> {
     @Override
     public void onBindViewHolder(@NonNull Viewholder viewholder, final int i) {
         ModelClass mc = modelClassesList.get(i);
-        viewholder.imageView.setImageBitmap(mc.getImage());
+        viewholder.imageView.setImageBitmap(BitmapFactory.decodeFile(mc.getImage()));
         viewholder.dishName.setText(mc.getTitle());
         viewholder.description.setText(mc.getDescription());
 
@@ -98,7 +98,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder> {
         }
     }
     public interface ItemClickListener {
-        void onClick(String email, String dishName, String cusine, String course, Bitmap image,  String description, String recipie);
+        void onClick(String email, String dishName, String cusine, String course, String image,  String description, String recipie);
         // TODO: Bitmap video
     }
 }

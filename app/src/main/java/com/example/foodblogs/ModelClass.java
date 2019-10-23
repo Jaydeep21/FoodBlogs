@@ -1,6 +1,7 @@
 package com.example.foodblogs;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import java.sql.Blob;
 
@@ -9,15 +10,14 @@ public class ModelClass {
     private String title;
     private String cusine;
     private String course;
-    private Bitmap image;
-    private Bitmap video;
+    private String image;
+    private String video;
     private String description;
     private String recipie;
-
-
+    private boolean isImageSaved = false;
 
     // Bitmap video ,
-    public ModelClass(String email, String title, String cusine, String course,Bitmap image, String description, String recipie) {
+    public ModelClass(String email, String title, String cusine, String course, String image, String description, String recipie) {
         this.email = email;
         this.title = title;
         this.cusine = cusine;
@@ -26,6 +26,26 @@ public class ModelClass {
         this.video = video;
         this.description = description;
         this.recipie = recipie;
+    }
+
+    public ModelClass(String email, String title, String cusine, String course, String image, String description, String recipie, boolean isImageSaved) {
+        this.email = email;
+        this.title = title;
+        this.cusine = cusine;
+        this.course = course;
+        this.image = image;
+        this.video = video;
+        this.description = description;
+        this.recipie = recipie;
+        this.isImageSaved = isImageSaved;
+    }
+
+    public void setImageSaved(boolean imageSaved) {
+        isImageSaved = imageSaved;
+    }
+
+    public boolean isImageSaved() {
+        return isImageSaved;
     }
 
     public String getEmail() {
@@ -60,19 +80,19 @@ public class ModelClass {
         this.course = course;
     }
 
-    public Bitmap getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Bitmap image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    public Bitmap getVideo() {
+    public String getVideo() {
         return video;
     }
 
-    public void setVideo(Bitmap video) {
+    public void setVideo(String video) {
         this.video = video;
     }
 

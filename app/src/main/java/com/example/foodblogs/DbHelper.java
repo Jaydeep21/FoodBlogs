@@ -15,6 +15,11 @@ import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +45,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
+        this.context = context;
 //        mContentResolver = context.getContentResolver();
 //
 //        db = this.getWritableDatabase();
@@ -51,7 +56,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_IMAGE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "email TEXT ,  dishname TEXT , cusine TEXT, course TEXT,image BLOB, video BLOB, description TEXT, recipie TEXT, FOREIGN KEY(email) REFERENCES user(email)  " + " );";
+                "email TEXT ,  dishname TEXT , cusine TEXT, course TEXT,image Text, video Text, description TEXT, recipie TEXT, FOREIGN KEY(email) REFERENCES user(email)  " + " );";
 
         db.execSQL(SQL_CREATE_IMAGE_TABLE);
 
@@ -68,12 +73,14 @@ public class DbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db =this.getWritableDatabase();
 
-        Bitmap  imageToStoreBitmap = objectModelClass.getImage();
+        // TODO: add code to get the image and store it in a folder
+        String newImagepath = null;
+        if (!objectModelClass.isImageSaved()) {
+            newImagepath = saveImage(new File(objectModelClass.getImage()), objectModelClass.getTitle());
+        } else {
+            newImagepath = objectModelClass.getImage();
+        }
 
-        objectByteArrayOutputStream = new ByteArrayOutputStream();
-        //imageToStoreBitmap.compress(Bitmap.CompressFormat.JPEG,100,objectByteArrayOutputStream);
-
-        imageInBytes = objectByteArrayOutputStream.toByteArray();
 
         ContentValues cv = new  ContentValues();
 
@@ -83,7 +90,7 @@ public class DbHelper extends SQLiteOpenHelper {
         cv.put("course", objectModelClass.getCourse());
         cv.put("description", objectModelClass.getDescription());
         cv.put("recipie", objectModelClass.getRecipie());
-        cv.put("image",   imageInBytes);
+        cv.put("image",  newImagepath);
         //cv.put("video",   video);
         long checkIfQueryRuns = db.insert( TABLE_NAME, null, cv );
         if(checkIfQueryRuns!=0){
@@ -106,4 +113,48 @@ public class DbHelper extends SQLiteOpenHelper {
 //            }
 //        }
 //    }
+    /**
+     * This method will save all the images to a folder named images in the internal storage
+     *
+     */
+    private String saveImage(File uploadingFile, String title) {
+        String newFilePath = null;
+        try {
+            File internalFilesDir = context.getFilesDir();
+            File imagesFolder = new File(internalFilesDir + "/images");
+
+            if (!imagesFolder.exists()) {
+                // if the images folder does not exist, create one
+                imagesFolder.mkdir();
+            }
+
+            // jo file humko upload karna hai usko humne inputstream lagaya hai kynki usse humme data lena hai
+            FileInputStream fileInputStream = new FileInputStream(uploadingFile);
+
+            // yeh naya file banaya recipie ke title ka naam ka
+            File file = new File(imagesFolder + "/" + title + ".jpeg");
+            // ab file ke liye ek output stream banaya kyunki yeh file ko humme write karna hai
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+
+            // yeh byte array banaya hai taki hum thoda thooda kare content idhar se udhar kar sake
+            byte[] bytes = new byte[1024];
+            int length;
+
+            // yeh line apne upload hone wale file se kuch content read karega aur usko byte wale array me store karega
+            // agar bytes baki hai aur uska length return karega, aur agar nahi baki hai toh -1 return karega
+            while((length = fileInputStream.read(bytes)) != -1) {
+                // yeh line tere file se 1024 bytes tak read karega, agar file me bytes ha toh
+                fileOutputStream.write(bytes, 0, length);
+            }
+            Log.d("TAG", "Image with name " + file.getName() + " saved at " + file.getAbsolutePath());
+            fileInputStream.close();
+            fileOutputStream.close();
+            newFilePath = file.getAbsolutePath();
+        } catch(IOException e){
+            e.printStackTrace();
+            Log.e("TAG", "Image couldn\'t be saved");
+        }
+
+        return newFilePath;
+    }
 }
