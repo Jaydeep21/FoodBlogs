@@ -54,7 +54,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder> {
                     @Override
                     public void onClick(View v) {
                         ModelClass item = modelClassesList.get(i);
-                        itemClickListener.onClick(item.getEmail(),item.getTitle(),item.getCusine(),item.getCourse(),item.getImage(),item.getDescription(),item.getRecipie());
+                        itemClickListener.onClick( item.getEmail(), item.getTitle(), item.getCusine(), item.getCourse(), item.getImage(), item.getVideo(), item.getDescription(),item.getRecipie());
                         //item.getVideo();
                     }
                 }
@@ -98,7 +98,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Viewholder> {
         }
     }
     public interface ItemClickListener {
-        void onClick(String email, String dishName, String cusine, String course, String image,  String description, String recipie);
+        void onClick(String email, String dishName, String cusine, String course, String image, String video, String description, String recipie);
         // TODO: Bitmap video
     }
 }

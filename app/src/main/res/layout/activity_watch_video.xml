@@ -11,9 +11,8 @@
 
         <VideoView
             android:id="@+id/videoView"
-            android:layout_width="wrap_content"
-            android:layout_height="250dp"
-             />
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
 
         <LinearLayout
             android:id="@+id/linlay1"
@@ -25,52 +24,52 @@
             android:layout_marginTop="20dp"
             android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="Title"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:id="@+id/title"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Title"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:id="@+id/title"
+                    />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="Cusine"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:layout_marginTop="30dp"
-            android:textSize="15sp"
-            android:id="@+id/cusine"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Cusine"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="30dp"
+                    android:textSize="15sp"
+                    android:id="@+id/cusine"
+                    />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="Course"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:layout_marginTop="30dp"
-            android:textSize="15sp"
-            android:id="@+id/course"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Course"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="30dp"
+                    android:textSize="15sp"
+                    android:id="@+id/course"
+                    />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="Recipe"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:layout_marginTop="30dp"
-            android:textSize="15sp"
-            android:id="@+id/recipie"
-            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Recipe"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="30dp"
+                    android:textSize="15sp"
+                    android:id="@+id/recipie"
+                    />
 
 
         </LinearLayout>

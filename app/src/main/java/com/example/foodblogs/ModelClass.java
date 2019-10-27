@@ -15,9 +15,10 @@ public class ModelClass {
     private String description;
     private String recipie;
     private boolean isImageSaved = false;
+    private boolean isVideoSaved = false;
 
     // Bitmap video ,
-    public ModelClass(String email, String title, String cusine, String course, String image, String description, String recipie) {
+    public ModelClass(String email, String title, String cusine, String course, String image, String video, String description, String recipie) {
         this.email = email;
         this.title = title;
         this.cusine = cusine;
@@ -28,7 +29,8 @@ public class ModelClass {
         this.recipie = recipie;
     }
 
-    public ModelClass(String email, String title, String cusine, String course, String image, String description, String recipie, boolean isImageSaved) {
+    public ModelClass(String email, String title, String cusine, String course, String image, String video, String description, String recipie, boolean isImageSaved, boolean isVideoSaved
+    ) {
         this.email = email;
         this.title = title;
         this.cusine = cusine;
@@ -38,6 +40,7 @@ public class ModelClass {
         this.description = description;
         this.recipie = recipie;
         this.isImageSaved = isImageSaved;
+        this.isVideoSaved = isVideoSaved;
     }
 
     public void setImageSaved(boolean imageSaved) {

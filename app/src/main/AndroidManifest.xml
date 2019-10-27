@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.foodblogs">
+    package="com.example.foodblogs"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -10,13 +12,19 @@
 
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:appComponentFactory"
+        android:appComponentFactory="whateverString"
+        >
         <activity android:name=".watchVideo"></activity>
         <activity
             android:name=".bottomnavigation"
@@ -29,6 +37,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Signup" />
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCezunRW5H3VHoX1-8kfvwctpooKGw5lrg"></meta-data>
     </application>
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"></uses-feature>
 
 </manifest>

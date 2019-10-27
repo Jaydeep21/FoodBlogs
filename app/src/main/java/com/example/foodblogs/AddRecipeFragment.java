@@ -41,6 +41,9 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener 
     Spinner s1, s2;
     private static final int SELECT_PHOTO = 1;
     private static final int CAPTURE_PHOTO = 2;
+    private static final int SELECT_VIDEO = 3;
+    private static final int CAPTURE_VIDEO = 4;
+
     private static final int PICK_IMAGE_REQUEST = 100;
     private Bitmap imageToStore;
     private ProgressDialog progressBar;
@@ -51,7 +54,9 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener 
     SharedPreferences pref;
     DbHelper dbHelper;
     private String imageFilePath;
+    private String videoFilePath;
     private boolean isimageTakenFromCamera = false;
+    private boolean isvideoTakenFromCamera = false;
     Bitmap bitmap;
 
     @Nullable
@@ -202,6 +207,13 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener 
                     i5.setImageBitmap(onCaptureImageResult(data));
                     isimageTakenFromCamera = true;
                     break;
+                case SELECT_VIDEO:
+                    onGalleryVideoSelected(data);
+                    isvideoTakenFromCamera = false;
+                    break;
+                case CAPTURE_VIDEO:
+                    isvideoTakenFromCamera= true;
+                    break;
             }
         }
 
@@ -225,13 +237,30 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener 
         return bitmap;
     }
 
+    private Bitmap onGalleryVideoSelected(Intent data) {
+        Uri selectedVideo = data.getData();
+        String[] filePathColumn = {MediaStore.Video.Media.DATA};
+
+        // Get the cursor
+        Cursor cursor = getActivity().getContentResolver().query(selectedVideo, filePathColumn, null, null, null);
+        // Move to first row
+        cursor.moveToFirst();
+
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String vidDecodableString = cursor.getString(columnIndex);
+        cursor.close();
+        Bitmap bitmap1 = BitmapFactory.decodeFile(vidDecodableString);
+        cursor.close();
+        videoFilePath = vidDecodableString;
+        return bitmap1;
+    }
+
     private Bitmap onCaptureImageResult(Intent data) {
         bitmap = (Bitmap) data.getExtras().get("data");
         //set Progress Bar
         setProgressBar();
         return bitmap;
     }
-
 
     public void addToDb(View view) {
 
@@ -243,9 +272,9 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener 
         String descripton = e2.getText().toString();
         String recipie = e3.getText().toString();
 
-        Bitmap video = null;
 
-        dbHelper.addToDb(new ModelClass(email, dishname, cusine, course, imageFilePath, descripton, recipie, isimageTakenFromCamera));
+
+        dbHelper.addToDb(new ModelClass(email, dishname, cusine, course, imageFilePath, videoFilePath,descripton, recipie, isimageTakenFromCamera, isvideoTakenFromCamera));
         //email,dishname,cusine,course,data,video,descripton,recipie
         Toast.makeText(getActivity(), "Image saved to DB successfully", Toast.LENGTH_SHORT).show();
 

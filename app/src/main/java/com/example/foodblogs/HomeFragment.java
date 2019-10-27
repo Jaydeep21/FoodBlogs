@@ -60,10 +60,10 @@ public class HomeFragment extends Fragment implements Adapter.ItemClickListener{
                                     cursor.getString(3) ,
                                     cursor.getString(4),
                                     cursor.getString(5),
-                                    //cursor.getBlob(6),
+                                    cursor.getString(6),
                                     cursor.getString(7),
                                     cursor.getString(8)
-                                    )//cursor.getBlob(5),cursor.getBlob(6),
+                            )
                     );
                 }
             }
@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment implements Adapter.ItemClickListener{
         adapter.setItemClickListener(
                 new Adapter.ItemClickListener() {
                     @Override
-                    public void onClick(String email, String dishName, String cusine, String course, String image, String description, String recipie) {
+                    public void onClick(String email, String dishName, String cusine, String course, String image, String video, String description, String recipie) {
 
                         Intent intent = new Intent(getActivity(), watchVideo.class);
                         intent.putExtra("email", email);
@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment implements Adapter.ItemClickListener{
                         intent.putExtra("description", description);
                         intent.putExtra("recipie", recipie);
                         intent.putExtra("image",   image);
-                        //intent.putExtra("video",   video);
+                        intent.putExtra("video",   video);
                         startActivity(intent);
                     }
                 }
@@ -95,9 +95,8 @@ public class HomeFragment extends Fragment implements Adapter.ItemClickListener{
         return view;
     }
 
-
     @Override// Bitmap video,
-    public void onClick(String email, String dishName, String cusine, String course, String image, String description, String recipie) {
+    public void onClick(String email, String dishName, String cusine, String course, String image, String video, String description, String recipie) {
         Intent intent = new Intent(getActivity(), watchVideo.class);
         intent.putExtra("email", email);
         intent.putExtra("dishname", dishName);
@@ -106,7 +105,7 @@ public class HomeFragment extends Fragment implements Adapter.ItemClickListener{
         intent.putExtra("description", description);
         intent.putExtra("recipie", recipie);
         intent.putExtra("image",   image);
-        //intent.putExtra("video",   video);
+        intent.putExtra("video",   video);
         startActivity(intent);
     }
 }
