@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -27,12 +29,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class AddRecipeFragment extends Fragment implements View.OnClickListener {
     Button b1;
@@ -237,22 +242,51 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener 
         return bitmap;
     }
 
-    private Bitmap onGalleryVideoSelected(Intent data) {
-        Uri selectedVideo = data.getData();
-        String[] filePathColumn = {MediaStore.Video.Media.DATA};
 
-        // Get the cursor
-        Cursor cursor = getActivity().getContentResolver().query(selectedVideo, filePathColumn, null, null, null);
-        // Move to first row
-        cursor.moveToFirst();
+    private static final int pick = 100;
+    Uri videoUri;
+    VideoView videoview;
+    private void onGalleryVideoSelected(Intent data) {
 
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String vidDecodableString = cursor.getString(columnIndex);
-        cursor.close();
-        Bitmap bitmap1 = BitmapFactory.decodeFile(vidDecodableString);
-        cursor.close();
-        videoFilePath = vidDecodableString;
-        return bitmap1;
+
+        try {
+            File newfile;
+
+            AssetFileDescriptor videoAsset = getActivity().getContentResolver().openAssetFileDescriptor(data.getData(), "r");
+            FileInputStream in = videoAsset.createInputStream();
+
+            File filepath =  getContext().getFilesDir();
+            File dir = new File(filepath.getAbsolutePath() + "/" +"videos" + "/");
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            newfile = new File(dir, "save_"+ e1.getText().toString() +".mp4");
+
+            if (newfile.exists()) newfile.delete();
+
+            OutputStream out = new FileOutputStream(newfile);
+
+            // Copy the bits from in stream to out stream
+            byte[] buf = new byte[1024];
+            int len;
+
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+
+            in.close();
+            out.close();
+
+            Log.v("", "Copy file successful.");
+
+            videoUri = data.getData();
+            videoview.setVideoURI(videoUri);
+            videoview.start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private Bitmap onCaptureImageResult(Intent data) {
